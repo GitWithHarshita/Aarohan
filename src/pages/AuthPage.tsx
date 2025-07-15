@@ -1,24 +1,11 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-hot-toast';
-import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
 import { FaUserShield, FaBalanceScale, FaUserGraduate, FaUser } from 'react-icons/fa';
 
 type Role = 'trainee' | 'lawyer' | 'user';
 type Mode = 'signin' | 'signup';
-
-const commonSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  phone: z.string().regex(/^\d{10}$/, 'Phone number must be 10 digits'),
-  aadhar: z.string().regex(/^\d{12}$/, 'Aadhar number must be 12 digits'),
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-});
-
-const lawyerSchema = commonSchema.extend({
-  barNumber: z.string().min(6, 'Bar number must be at least 6 characters'),
-});
 
 const AuthPage = () => {
   const navigate = useNavigate();
