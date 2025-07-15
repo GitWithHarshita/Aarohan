@@ -126,7 +126,7 @@ const PendingCasesPage = () => {
     const fetchCases = async () => {
       try {
         setLoading(true);
-        const { data: userData } = await supabase.auth.getUser();
+        await supabase.auth.getUser();
         
         // For development, we'll continue even if no user is logged in
         // In production, you'd want to redirect if !userData.user

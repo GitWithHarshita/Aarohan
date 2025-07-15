@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { Camera, FileText, MessageSquare, Upload, MicOff, Mic, Video, VideoOff, UserPlus, X } from 'lucide-react';
+import { FileText, MessageSquare, Upload, MicOff, Mic, Video, VideoOff, UserPlus, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-hot-toast';
 
@@ -43,7 +43,7 @@ export function Courtroom() {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [cameraOn, setCameraOn] = useState(true);
   const [micOn, setMicOn] = useState(true);
-  const [currentUser, setCurrentUser] = useState({
+  const [currentUser] = useState({
     id: 'lawyer-123',
     name: 'Adv. Sanjay Sharma',
     role: 'lawyer'
