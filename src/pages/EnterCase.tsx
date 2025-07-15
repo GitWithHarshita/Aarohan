@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
 import { toast } from 'react-hot-toast';
 import { motion } from 'framer-motion';
 import { FaGavel, FaCalendarAlt, FaBalanceScale, FaUserTie, FaBuilding } from 'react-icons/fa';
@@ -37,28 +36,9 @@ const EnterCase: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      const { error } = await supabase
-        .from('cases')
-        .insert([{
-          ...formData,
-          lawyer_id: user?.id || 'anonymous',
-          created_at: new Date().toISOString()
-        }]);
-
-      if (error) throw error;
-
-      toast.success('Case created successfully!');
-      navigate('/pending-cases');
-    } catch (error: any) {
-      console.error('Error creating case:', error);
-      toast.error(error.message || 'Failed to create case');
-    } finally {
-      setIsLoading(false);
-    }
+    toast.success('Case created (simulated)!');
+    navigate('/pending-cases');
+    setIsLoading(false);
   };
 
   return (

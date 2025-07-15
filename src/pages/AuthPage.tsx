@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { supabase } from '../lib/supabase';
 import { toast } from 'react-hot-toast';
 import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
@@ -36,54 +35,10 @@ const AuthPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    try {
-      const schema = role === 'lawyer' ? lawyerSchema : commonSchema;
-      schema.parse(formData);
-
-      if (mode === 'signup') {
-        const { error } = await supabase.auth.signUp({
-          email: formData.email,
-          password: formData.password,
-          options: {
-            data: {
-              role,
-              name: formData.name,
-              phone: formData.phone,
-              aadhar: formData.aadhar,
-              ...(role === 'lawyer' && { barNumber: formData.barNumber }),
-            },
-          },
-        });
-
-        if (error) throw error;
-        toast.success('Successfully signed up! Please check your email for verification.');
-        
-        // Redirect lawyer to pending cases
-        if (role === 'lawyer') {
-          navigate('/pending-cases');
-        }
-      } else {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: formData.email,
-          password: formData.password,
-        });
-
-        if (error) throw error;
-        toast.success('Successfully signed in!');
-        
-        // Check user metadata to determine role
-        const userRole = data.user?.user_metadata?.role;
-        if (userRole === 'lawyer') {
-          navigate('/pending-cases');
-        }
-      }
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        error.errors.forEach((err) => toast.error(err.message));
-      } else {
-        toast.error('An error occurred. Please try again.');
-      }
+    // Placeholder: Simulate successful sign in/up
+    toast.success('Authentication simulated.');
+    if (role === 'lawyer') {
+      navigate('/pending-cases');
     }
   };
 

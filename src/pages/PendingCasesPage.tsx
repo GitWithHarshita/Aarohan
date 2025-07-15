@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { supabase } from '../lib/supabase';
 import { useNavigate } from 'react-router-dom';
 
 interface Case {
@@ -123,42 +122,9 @@ const PendingCasesPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCases = async () => {
-      try {
-        setLoading(true);
-        await supabase.auth.getUser();
-        
-        // For development, we'll continue even if no user is logged in
-        // In production, you'd want to redirect if !userData.user
-        
-        // Try to get data from Supabase
-        const { data, error } = await supabase
-          .from('cases')
-          .select('*')
-          .eq('status', caseType)
-          .order('date_filed', { ascending: false });
-
-        if (error) {
-          console.error('Supabase error:', error);
-          // Fall back to dummy data if Supabase fetch fails
-          setCases(dummyCases.filter(c => c.status === caseType));
-        } else if (data && data.length > 0) {
-          // Use Supabase data if available
-          setCases(data);
-        } else {
-          // Fall back to dummy data if no data returned
-          setCases(dummyCases.filter(c => c.status === caseType));
-        }
-      } catch (error) {
-        console.error('Error fetching cases:', error);
-        // Fall back to dummy data on any error
-        setCases(dummyCases.filter(c => c.status === caseType));
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCases();
+    setLoading(true);
+    setCases(dummyCases.filter(c => c.status === caseType));
+    setLoading(false);
   }, [caseType, navigate]);
 
   const filteredCases = filter === 'all' 
